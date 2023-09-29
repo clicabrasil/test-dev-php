@@ -1,64 +1,47 @@
-# Teste para candidatos à vaga de Desenvolvedor PHP Pleno
+## Instalação
 
-Olá caro desenvolvedor, nesse teste analisaremos seu conhecimento geral e inclusive velocidade de desenvolvimento. Abaixo explicaremos tudo o que será necessário.
+Primeiro clone este repositório e configure seu arquivo .env.
 
-## Instruções
+```
+git clone git@github.com:benjamimWalker/test-dev-php.git
+cp .env.example .env
+```
+## Configuração
+Suba o container
 
-O desafio consiste em implementar uma aplicação web utilizando o framework PHP Laravel e Livewire, um banco de dados relacional (Mysql ou Postgres), que terá como finalidade a inscrição de candidatos a uma oportunidade de emprego.
+```
+docker-compose up -d
+```
+Inicie o servidor node. Se docker compose não funcionar, tente docker-compose.
 
-Sua aplicação deve possuir:
+```
+docker compose exec app npm run dev
+```
 
-- CRUD de vagas:
-  - Criar, editar, excluir e listar vagas.
-  - A vaga pode ser CLT, Pessoa Jurídica ou Freelancer.
-- CRUD de candidatos:
-  - Criar, editar, excluir e listar candidatos.
-- Um candidato pode se inscrever em uma ou mais vagas.
-- Deve ser ser possível "pausar" a vaga, evitando a inscrição de candidatos.
-- Cada CRUD:
-  - Deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
-  - Deve possuir formulários para criação e atualização de seus itens.
-  - Deve permitir a deleção de qualquer item de sua lista.
-  - Implementar validações de campos obrigatórios e tipos de dados.
-- Testes unitários e de unidade.
+Execute as migrations iniciais.
 
-## Banco de dados
+```
+docker compose exec app php artisan migrate
+```
 
-- O banco de dados deve ser criado utilizando Migrations do framework Laravel, e também utilizar Seeds e Factorys para popular as informações no banco de dados.
+Execute o seeder para popular o banco de dados.
 
-## Tecnologias a serem utilizadas
+```
+docker compose exec app php artisan db:seed
+```
 
-Devem ser utilizadas as seguintes tecnologias:
+Temos usuários normais e admins, é importante testar com ambos.
+Um usuário é admin quando a sua coluna admin da tabela users é true
 
-- HTML
-- CSS
-- Javascript
-- Laravel (PHP)
-- Livewire
-- Docker (construção do ambiente de desenvolvimento)
-- Mysql ou Postgres
+Não é necessário executar comando para o servidor php, uma vez que o container esteja de pé, basta acessar
+```
+http://localhost
+```
+na porta 80 mesmo.
 
-## Entrega
+## Testando
 
-- Para iniciar o teste, faça um fork deste repositório; **Se você apenas clonar o repositório não vai conseguir fazer push.**
-- Crie uma branch com o seu nome completo;
-- Altere o arquivo teste-pleno.md com as informações necessárias para executar o seu teste (comandos, migrations, seeds, etc);
-- Depois de finalizado, envie-nos o pull request;
-
-## Bônus
-
-- API Rest JSON para todos os CRUDS listados acima.
-- Permitir deleção em massa de itens nos CRUDs.
-- Permitir que o usuário mude o número de itens por página.
-- Implementar autenticação de usuário na aplicação.
-
-## O que iremos analisar
-
-- Organização do código;
-- Aplicação de design patterns;
-- Aplicação de testes;
-- Separação de módulos e componentes;
-- Legibilidade;
-- Criação do ambiente com Docker.
-
-### Boa sorte!
+Você pode executar os testes com o comando.
+```
+docker compose exec app php artisan test
+```
