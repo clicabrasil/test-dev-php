@@ -7,12 +7,21 @@ git clone git@github.com:benjamimWalker/test-dev-php.git
 cp .env.example .env
 ```
 ## Configuração
-Suba o container
+Suba o container. Se docker compose não funcionar, tente docker-compose.
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
-Inicie o servidor node. Se docker compose não funcionar, tente docker-compose.
+Instale as dependências do composer.
+```
+docker compose exec app composer install
+```
+
+Instale as dependências do node
+```
+docker compose exec app npm install
+```
+Inicie o servidor node.
 
 ```
 docker compose exec app npm run dev
